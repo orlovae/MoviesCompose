@@ -1,13 +1,15 @@
 package ru.alexandrorlov.moviescompose.screen
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import ru.alexandrorlov.moviescompose.model.Movie
 
 class MovieDetailViewModel: ViewModel() {
+    private val _movie = mutableStateOf(Movie)
+    val movie: MutableState<Movie.CREATOR> = _movie
+
     private val movies: List<Movie>
 
     init {

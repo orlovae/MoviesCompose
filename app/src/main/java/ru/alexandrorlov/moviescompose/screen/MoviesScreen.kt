@@ -11,7 +11,7 @@ import ru.alexandrorlov.moviescompose.model.Movie
 
 @Composable
 fun MoviesScreen(
-    movies: List<Movie>,
+    movies: List<Movie>,//TODO задесь должна быть вьюмодель
     onNavigateToMovieDetail: NavController
 ) {
     LazyColumn{
@@ -19,7 +19,7 @@ fun MoviesScreen(
             MovieComponent(
                 movie = item,
                 onClick = {
-                    onNavigateToMovieDetail.navigate("movie")
+                    onNavigateToMovieDetail.navigate("movie/${item.id}")
                 }
             )
         }

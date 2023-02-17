@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MoviesCompose</string>
+    <string name="actor">Актёры</string>
 </resources>

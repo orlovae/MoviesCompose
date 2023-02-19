@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import ru.alexandrorlov.moviescompose.model.Movie
 
 class MovieDetailViewModel: ViewModel() {
-    private val _movie = mutableStateOf(Movie)
-    val movie: MutableState<Movie.CREATOR> = _movie
+    private val _movie = mutableStateOf(Movie())
+    val movie: MutableState<Movie> = _movie
 
     private val movies: List<Movie>
 

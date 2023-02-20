@@ -1,16 +1,13 @@
 package ru.alexandrorlov.moviescompose.model
 
-import android.os.Parcel
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import ru.alexandrorlov.moviescompose.R
 
-@Parcelize
 data class Movie(
     val id: Int = -1,
     val name: String = "error",
-    val photo: String = "error",/*можно добавать по умолчанию ссылку на заглушку из drawable*/
+    val photo: String  = R.drawable.ic_launcher_error.toString(),
     val dateRelease: String = "error",
-    val rating: String = "error",
+    val rating: Int = -1,
     val ageRating: String = "error",
     val description: String = "error"
-) : Parcelable
+)

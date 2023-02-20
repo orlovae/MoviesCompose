@@ -1,7 +1,9 @@
 package ru.alexandrorlov.moviescompose.screen
 
+import android.app.Application
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -9,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import ru.alexandrorlov.moviescompose.App
 import ru.alexandrorlov.moviescompose.model.Movie
 
 @Composable
@@ -25,7 +28,7 @@ fun AppNavHost(
             "movieList"
         ) {
             MoviesScreen (
-                movies = MoviesViewModel().movies,
+                MoviesViewModel(),
                 onNavigateToMovieDetail = navController
             )
         }
@@ -35,8 +38,10 @@ fun AppNavHost(
             )
         ) {
             val movieId = it.arguments?.getInt("id")
+            val movieViewModel: MovieDetailViewModel = viewModel()
             MovieDetailScreen(
-                movie = MovieDetailViewModel().onPressItemMovieScreen(movieId)
+                movieViewModel,
+                movieId
             )
         }
     }

@@ -77,9 +77,7 @@ fun MovieComponent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RatingComponent(
-                    starFull = convertRatingToInt(
-                        movie.rating.toDouble()
-                    )
+                    starFull = movie.rating
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 AgeRatingComponent(ageRating = movie.ageRating)
@@ -87,9 +85,5 @@ fun MovieComponent(
         }
     }
 
-    
-}
-//TODO Может есть смысл этот метод вынести в базу данных, что бы при получении модели из сети, в базу данных писалось бы конвертированное значение
-private fun convertRatingToInt(rating: Double): Int {
-    return (rating * 0.5).roundToInt()
+
 }

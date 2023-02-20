@@ -1,18 +1,21 @@
 package ru.alexandrorlov.moviescompose
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import ru.alexandrorlov.moviescompose.model.Movie
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import ru.alexandrorlov.moviescompose.network.GenresNetwork
+import ru.alexandrorlov.moviescompose.network.MovieDetailsNetwork
+import ru.alexandrorlov.moviescompose.network.MoviesPopularNetwork
 import ru.alexandrorlov.moviescompose.screen.AppNavHost
-import ru.alexandrorlov.moviescompose.screen.MovieComponent
-import ru.alexandrorlov.moviescompose.screen.MoviesScreen
-import ru.alexandrorlov.moviescompose.screen.MoviesViewModel
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

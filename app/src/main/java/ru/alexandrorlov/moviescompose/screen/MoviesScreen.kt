@@ -11,9 +11,10 @@ import ru.alexandrorlov.moviescompose.model.Movie
 
 @Composable
 fun MoviesScreen(
-    movies: List<Movie>,//TODO задесь должна быть вьюмодель
+    moviesViewModel: MoviesViewModel = viewModel(),
     onNavigateToMovieDetail: NavController
 ) {
+    val movies = moviesViewModel.movies
     LazyColumn{
         itemsIndexed(items = movies) { _, item ->
             MovieComponent(

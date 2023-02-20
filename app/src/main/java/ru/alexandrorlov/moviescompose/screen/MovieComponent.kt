@@ -1,6 +1,7 @@
 package ru.alexandrorlov.moviescompose.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -23,10 +24,16 @@ import ru.alexandrorlov.moviescompose.model.Movie
 import kotlin.math.roundToInt
 
 @Composable
-fun MovieComponent(movie: Movie) {
+fun MovieComponent(
+    movie: Movie,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
-            .padding(10.dp),
+            .padding(10.dp)
+            .clickable (
+                onClick = onClick
+            ),
         shape = RoundedCornerShape(20.dp)
     ) {
         Column(
@@ -85,20 +92,4 @@ fun MovieComponent(movie: Movie) {
 //TODO Может есть смысл этот метод вынести в базу данных, что бы при получении модели из сети, в базу данных писалось бы конвертированное значение
 private fun convertRatingToInt(rating: Double): Int {
     return (rating * 0.5).roundToInt()
-}
-
-@Preview
-@Composable
-fun MovieComponentPreview() {
-    MovieComponent(
-        Movie(
-            0,
-            "Kin-dza-dza",
-            "https://upload.wikimedia.org/wikipedia/ru/thumb/9/98/Kin-dza-dza.JPG/240px-Kin-dza-dza.JPG",
-            "30.03.1987",
-            "10.0",
-            "12+",
-            "Прораб Владимир Николаевич Машков и не подозревал, что обычный путь до универсама за хлебом и макаронами обернется межгалактическими путешествиями. А все эта встреча со странным босоногим человеком с каким-то маленьким устройством — «машинкой перемещения», как тот ее назвал. Короче, нажал на кнопку и оказался вместе со случайным попутчиком, студентом в кроличьей шапке, в пустыне, и не в каких-нибудь Каракумах, а на планете-пустыне Плюк в тентуре, галактика Кин-дза-дза в спирали."
-        )
-    )
 }

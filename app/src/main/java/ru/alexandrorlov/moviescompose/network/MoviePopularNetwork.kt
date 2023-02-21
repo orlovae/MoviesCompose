@@ -2,7 +2,6 @@ package ru.alexandrorlov.moviescompose.network
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.alexandrorlov.moviescompose.R
 
 @Serializable
 data class MoviesPopularNetwork(

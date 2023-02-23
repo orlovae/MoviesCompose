@@ -2,7 +2,7 @@ package ru.alexandrorlov.moviescompose
 
 import android.app.Application
 import android.content.Context
-import ru.alexandrorlov.moviescompose.model.Movie
+import kotlinx.coroutines.flow.flow
 import ru.alexandrorlov.moviescompose.network.MoviePopularNetwork
 import ru.alexandrorlov.moviescompose.util.AssetsReader
 import ru.alexandrorlov.moviescompose.util.Mapper
@@ -19,12 +19,17 @@ class App : Application() {
         lateinit var listMoviePopularNetwork: List<MoviePopularNetwork>
         private val mapper = Mapper()
 
-        fun getListMovie() : List<Movie> {
-            return mapper.moviePopularNetworkListMapMovieList(listMoviePopularNetwork)
+        val movieListFlow = flow {
+            val moviesList = mapper.moviePopularNetworkListMapMovieList(listMoviePopularNetwork)
+            emit(moviesList)
         }
-        fun getMovie(id: Int): Movie {
-            val listMovie = mapper.moviePopularNetworkListMapMovieList(listMoviePopularNetwork)
-            return (listMovie.filter { it.id == id }).first()
+
+        fun getMovie(id: Int?) = flow {
+            val moviesList = mapper.moviePopularNetworkListMapMovieList(listMoviePopularNetwork)
+            emit(
+            moviesList
+                .firstOrNull { movie -> movie.id == id }
+            )
         }
     }
 }

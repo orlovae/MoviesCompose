@@ -6,9 +6,9 @@ import ru.alexandrorlov.moviescompose.config.Network
 import ru.alexandrorlov.moviescompose.model.Movie
 import ru.alexandrorlov.moviescompose.network.MoviePopularNetwork
 
-class Mapper()  {
+class Mapper {
 
-    fun moviePopularNetworkMapMovie (moviePopularNetwork: MoviePopularNetwork): Movie {
+    private fun moviePopularNetworkMapMovie (moviePopularNetwork: MoviePopularNetwork): Movie {
         return Movie(
             id = moviePopularNetwork.id,
             name = moviePopularNetwork.name,

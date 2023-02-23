@@ -1,18 +1,21 @@
 package ru.alexandrorlov.moviescompose.screen
 
-import android.app.Application
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import ru.alexandrorlov.moviescompose.App
-import ru.alexandrorlov.moviescompose.util.AssetsReader
-import ru.alexandrorlov.moviescompose.R
-import ru.alexandrorlov.moviescompose.model.Movie
-import ru.alexandrorlov.moviescompose.util.Mapper
 
 class MoviesViewModel: ViewModel() {
-    private var _movies = App.getListMovie()
-    var movies = _movies
+    private val _state: MutableStateFlow<MoviesState> = MutableStateFlow(MoviesState.Loading)
+    val state = _state.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            App.movieListFlow.collect { movies ->
+                _state.emit(MoviesState.Success(movies))
+            }
+        }
+    }
+
 }

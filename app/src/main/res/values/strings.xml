@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MoviesCompose</string>
-    <string name="actor">Актёры</string>
+    <string name="actor">Actor</string>
+    <string name="loading">Data Loading, please wait.</string>
+    <string name="error">Sorry an error has occurred</string>
+    <string name="error_movie_detail">Movie is NULL!</string>
 </resources>

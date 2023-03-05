@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -16,27 +17,32 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import ru.alexandrorlov.moviescompose.R
 import ru.alexandrorlov.moviescompose.model.Movie
 
+
 @Composable
-fun MovieComponent(
+fun ComponentMovie(
     movie: Movie,
-    onClick: () -> Unit
+    onClick: (Int) -> Unit
 ) {
     Card(
         modifier = Modifier
             .padding(10.dp)
-            .clickable (
-                onClick = onClick
-            ),
+            .clickable {
+                onClick(movie.id)
+            },
         shape = RoundedCornerShape(20.dp)
     ) {
         Column(
             modifier = Modifier
         ) {
             AsyncImage(
-                model = movie.photo,
+                model = ImageRequest.Builder(context = LocalContext.current)
+                    .data(movie.poster)
+                    .crossfade(true)
+                    .build(),
                 placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
                 error = painterResource(id = R.drawable.ic_launcher_error),
                 contentDescription = null,
@@ -44,7 +50,7 @@ fun MovieComponent(
                 contentScale = ContentScale.Fit,
             )
             Text(
-                text = movie.name,
+                text = movie.title,
                 modifier = Modifier
                     .padding(
                         start = 3.dp,
@@ -72,14 +78,12 @@ fun MovieComponent(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                RatingComponent(
-                    starFull = movie.rating
+                ComponentRating(
+                    starsMovie = movie.rating
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                AgeRatingComponent(ageRating = movie.ageRating)
+                ComponentAgeRating(ageRating = movie.ageRating)
             }
         }
     }
-
-
 }

@@ -1,7 +1,9 @@
 package ru.alexandrorlov.moviescompose.screen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,28 +23,28 @@ import coil.compose.AsyncImage
 import ru.alexandrorlov.moviescompose.R
 
 @Composable
-fun MovieDetailScreen(
-    movieDetailViewModel: MovieDetailViewModel = viewModel(),
-    id: Int?
+fun ScreenMovieDetail(
+    viewModelMovieDetail: ViewModelMovieDetail = viewModel(
+        factory = ViewModelMovieDetail.FACTORY
+    )
 ) {
-    movieDetailViewModel.onPressItemMovieScreen(id)
-    val state = movieDetailViewModel.state.collectAsState()
+    val state = viewModelMovieDetail.state.collectAsState()
     Box(
         modifier = Modifier
-        .fillMaxSize()
+            .fillMaxSize()
     ) {
         when (state.value) {
-            is MovieState.Loading -> {
+            is StateMovieDetail.Loading -> {
                 Box(modifier = Modifier
                     .fillMaxSize()) {
-                    CircularProgressAnimated()
+                    ComponentCircularProgressAnimated()
                 }
             }
-            is MovieState.Error -> {
+            is StateMovieDetail.Error -> {
                 Box(modifier = Modifier
                     .fillMaxSize()) {
                     Text(
-                        text = stringResource(id = (state.value as MovieState.Error).message),
+                        text = (state.value as StateMovieDetail.Error).message,
                         modifier = Modifier
                             .fillMaxWidth(),
                         fontSize = 30.sp,
@@ -52,15 +54,15 @@ fun MovieDetailScreen(
                     )
                 }
             }
-            is MovieState.Success -> {
-                val movie = (state.value as MovieState.Success).movie
+            is StateMovieDetail.Success -> {
+                val movieDetail = (state.value as StateMovieDetail.Success).movie
                 Box(
                     modifier = Modifier
                         .fillMaxSize(),
                     contentAlignment = Alignment.BottomEnd
                 ) {
                     AsyncImage(
-                        model = movie.photo,
+                        model = movieDetail.poster,
                         placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
                         error = painterResource(id = R.drawable.ic_launcher_error),
                         contentDescription = null,
@@ -71,16 +73,16 @@ fun MovieDetailScreen(
                     )
                     Card(
                         modifier = Modifier
-                            .fillMaxHeight(0.75f),
-
+                            .fillMaxHeight(0.75f)
+                            .verticalScroll(rememberScrollState()),
                         shape = RoundedCornerShape(30.dp)
 
                     ) {
                         Column(
                             modifier = Modifier
                         ) {
-                            MovieDetailRowGenreDateRealiseComponent(movie = movie)
-                            MovieDetailRowNameAgeRatingComponent(movie = movie)
+                            ComponentMovieDetailRowGenreDateRealise(movieDetail = movieDetail)
+                            ComponentMovieDetailRowNameAgeRating(movieDetail = movieDetail)
                             Box(
                                 modifier = Modifier
                                     .padding(
@@ -88,10 +90,10 @@ fun MovieDetailScreen(
                                         top = 8.dp
                                     )
                             ) {
-                                RatingComponent(starFull = movie.rating)
+                                ComponentRating(starsMovie = movieDetail.rating)
                             }
                             Text(
-                                text = movie.description,
+                                text = movieDetail.description,
                                 fontSize = 12.sp,
                                 fontFamily = FontFamily.SansSerif,
                                 modifier = Modifier.padding(
@@ -111,7 +113,9 @@ fun MovieDetailScreen(
                                         top = 35.dp
                                     )
                             )
-                            //TODO здесь будет Компонент на вход принимающий лист с актёрами
+                            ComponentActorList(
+                                actorList = movieDetail.actorList
+                            )
                         }
                     }
                 }

@@ -21,7 +21,7 @@ data class MovieDetailsNetwork(
     val backdrop: String? = null,
 
     @SerialName("vote_average")
-    val ratings: Double,
+    val rating: Double,
 
     @SerialName("vote_count")
     val reviews: Int,

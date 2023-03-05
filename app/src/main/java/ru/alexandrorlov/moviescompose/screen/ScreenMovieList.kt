@@ -15,27 +15,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import ru.alexandrorlov.moviescompose.R
 
 @Composable
-fun MoviesScreen(
-    moviesViewModel: MoviesViewModel = viewModel(),
-    onNavigateToMovieDetail: NavController
+fun ScreenMovieList(
+    viewModel: ViewModelMovieList = viewModel(
+        factory = ViewModelMovieList.FACTORY
+    ),
+    onMovieClick: (Int) -> Unit
 ) {
-    val state = moviesViewModel.state.collectAsState()
+    val state = viewModel.state.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
         when (state.value) {
-            is MoviesState.Loading -> {
+            is StateMovieList.Loading -> {
                 Box(modifier = Modifier
                     .fillMaxSize()) {
-                    CircularProgressAnimated()
+                    ComponentCircularProgressAnimated()
                 }
             }
-            is MoviesState.Error -> {
+            is StateMovieList.Error -> {
                 Box(modifier = Modifier
                     .fillMaxSize()) {
                     Text(
@@ -49,14 +50,12 @@ fun MoviesScreen(
                     )
                 }
             }
-            is MoviesState.Success -> {
+            is StateMovieList.Success -> {
                 LazyColumn {
-                    itemsIndexed(items = (state.value as MoviesState.Success).movies) { _, item ->
-                        MovieComponent(
+                    itemsIndexed(items = (state.value as StateMovieList.Success).movieList) { _, item ->
+                        ComponentMovie(
                             movie = item,
-                            onClick = {
-                                onNavigateToMovieDetail.navigate("movie/${item.id}")
-                            }
+                            onClick = onMovieClick
                         )
                     }
                 }

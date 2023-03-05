@@ -5,6 +5,9 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.21'
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 android {
     namespace 'ru.alexandrorlov.moviescompose'
     compileSdk 33
@@ -27,7 +30,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            buildConfigField("String", "TMDB_API_KEY", localProperties["tmdb_api_key"])
+            resValue("string", "api_key", localProperties["tmdb_api_key"])
+        }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -61,8 +69,15 @@ dependencies {
     implementation 'androidx.compose.material:material:1.3.1'
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "io.coil-kt:coil-compose:2.2.2"
-
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

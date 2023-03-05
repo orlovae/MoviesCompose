@@ -17,7 +17,6 @@ data class ActorNetwork(
     @SerialName("name")
     val name: String,
 
-    //TODO если поле нулевое, то подменять ссылку на ресрс, нет фото
     @SerialName("profile_path")
-    val picturePath: String? = null
+    val photoPath: String? = null
 )

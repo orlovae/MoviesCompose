@@ -13,20 +13,20 @@ import ru.alexandrorlov.moviescompose.config.AppConfig
 import ru.alexandrorlov.moviescompose.config.TypeStar
 
 @Composable
-fun RatingComponent(starFull: Int) {
+fun ComponentRating(starsMovie: Int) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        for (i in 0..AppConfig.NUMBER_STARS) {
-            if (i < starFull) {
-                StarComponent(type = TypeStar.STAR_FULL)
+        for (i in 0..AppConfig.STARS_RATING_COUNT) {
+            if (i < starsMovie) {
+                ComponentStar(type = TypeStar.STAR_FULL)
             } else {
-                StarComponent(type = TypeStar.STAR_EMPTY)
+                ComponentStar(type = TypeStar.STAR_EMPTY)
             }
         }
     }
 }
 
 @Composable
-fun StarComponent(type: TypeStar){
+fun ComponentStar(type: TypeStar){
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -50,6 +50,6 @@ fun StarComponent(type: TypeStar){
 
 @Preview
 @Composable
-fun RatingComponentPreview() {
-    RatingComponent(3)
+fun ComponentRatingPreview() {
+    ComponentRating(3)
 }

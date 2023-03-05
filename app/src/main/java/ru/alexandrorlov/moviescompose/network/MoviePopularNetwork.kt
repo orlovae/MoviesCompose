@@ -27,7 +27,7 @@ data class MoviePopularNetwork(
     val dateRelease: String,
 
     @SerialName("title")
-    val name: String,
+    val title: String,
 
     @SerialName("vote_average")
     val rating: Double

@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.sp
 
 //TODO избавиться от хардкора в padding и radius, т.к. при смене шрифта всё едет
 @Composable
-fun AgeRatingComponent(ageRating: String) {
-        Text(
-            text = ageRating,
-            fontSize = 14.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
+fun ComponentAgeRating(ageRating: String) {
+    Text(
+        text = ageRating,
+        fontSize = 14.sp,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
             .padding(11.dp)
             .drawBehind {
                 drawCircle(
@@ -30,14 +30,14 @@ fun AgeRatingComponent(ageRating: String) {
                     )
                 )
             }
-        )
+    )
 }
 
 @Preview
 @Composable
-fun AgeRatingComponentPreview(
+fun ComponentAgeRatingPreview(
 ) {
-    AgeRatingComponent(
+    ComponentAgeRating(
         "18+"
     )
 }

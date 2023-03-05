@@ -9,13 +9,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import ru.alexandrorlov.moviescompose.R
-import ru.alexandrorlov.moviescompose.config.Config
+import ru.alexandrorlov.moviescompose.config.AppConfig
 import ru.alexandrorlov.moviescompose.config.TypeStar
 
 @Composable
 fun RatingComponent(starFull: Int) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        for (i in 0..Config.NUMBER_STARS) {
+        for (i in 0..AppConfig.NUMBER_STARS) {
             if (i < starFull) {
                 StarComponent(type = TypeStar.STAR_FULL)
             } else {

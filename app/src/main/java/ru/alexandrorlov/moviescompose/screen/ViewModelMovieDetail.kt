@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.alexandrorlov.moviescompose.model.MovieDetail
-import ru.alexandrorlov.moviescompose.network.ManagerNetwork
+import ru.alexandrorlov.moviescompose.network.RepositoryNetwork
 import ru.alexandrorlov.moviescompose.network.Result
 
 class ViewModelMovieDetail(
-    private val managerNetwork: ManagerNetwork,
+    private val repositoryNetwork: RepositoryNetwork,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _state: MutableStateFlow<StateMovieDetail> = MutableStateFlow(StateMovieDetail.Loading)
@@ -27,7 +27,7 @@ class ViewModelMovieDetail(
 
         viewModelScope.launch {
             val resultMovieDetailFromNetwork = withContext(Dispatchers.IO) {
-                managerNetwork.getResultMovieDetailsNetwork(movieDetailId.toInt())
+                repositoryNetwork.getResultMovieDetailsNetwork(movieDetailId.toInt())
             }
             if (resultMovieDetailFromNetwork is Result.Success) {
                 val movieDetail = resultMovieDetailFromNetwork.data as MovieDetail
@@ -47,8 +47,8 @@ class ViewModelMovieDetail(
         val FACTORY = viewModelFactory {
             initializer {
                 val savedStateHandle = createSavedStateHandle()
-                val managerNetwork = ManagerNetwork
-                ViewModelMovieDetail(managerNetwork, savedStateHandle)
+                val repositoryNetwork = RepositoryNetwork
+                ViewModelMovieDetail(repositoryNetwork, savedStateHandle)
             }
         }
     }

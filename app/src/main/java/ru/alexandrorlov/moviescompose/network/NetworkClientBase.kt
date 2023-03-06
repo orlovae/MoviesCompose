@@ -3,7 +3,7 @@ package ru.alexandrorlov.moviescompose.network
 import retrofit2.Response
 import java.io.IOException
 
-open class RepositoryBase {
+open class NetworkClientBase {
 
     suspend fun <T : Any> safeApiCall(
         call: suspend () -> Response<T>,

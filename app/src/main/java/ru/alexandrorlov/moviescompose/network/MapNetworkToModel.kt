@@ -33,7 +33,7 @@ object MapNetworkToModel {
         }
     }
 
-    fun mapListActorNetworkToListModel(actorsNetwork: List<ActorNetwork>): List<Actor> {
+    fun mapActorNetworkListToModelList(actorsNetwork: List<ActorNetwork>): List<Actor> {
         return actorsNetwork.map { actorNetwork ->
             Actor(
                 id = actorNetwork.id,

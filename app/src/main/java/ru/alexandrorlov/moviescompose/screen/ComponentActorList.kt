@@ -2,7 +2,7 @@ package ru.alexandrorlov.moviescompose.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,8 +21,8 @@ fun ComponentActorList(
         LazyRow(
             modifier = Modifier
         ){
-            itemsIndexed(items = actorList) { _, item ->
-                ComponentActor(actor = item)
+            items(actorList) { actor ->
+                ComponentActor(actor = actor)
                 Spacer(
                     modifier = Modifier
                         .width(10.dp)

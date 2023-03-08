@@ -3,7 +3,7 @@ package ru.alexandrorlov.moviescompose.network
 import retrofit2.Response
 import java.io.IOException
 
-open class NetworkClientBase {
+open class TMDBRemoteDataSourceBase {
 
     suspend fun <T : Any> safeApiCall(
         call: suspend () -> Response<T>,

@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MoviesPopularNetwork(
+data class ResultFromNetworkMoviePopularList(
     @SerialName("results")
-    val moviesPopular: List<MoviePopularNetwork>,
+    val moviePopularNetworkList: List<MoviePopularNetwork>,
 )
 
 @Serializable

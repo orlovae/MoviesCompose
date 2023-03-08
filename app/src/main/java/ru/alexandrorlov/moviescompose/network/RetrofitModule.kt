@@ -39,5 +39,5 @@ object RetrofitModule {
         .client(httpClient)
         .build()
 
-    val tmdbApi: TmdbApi = retrofit().create(TmdbApi::class.java)
+    val tmdbApiService: TMDBApiService = retrofit().create(TMDBApiService::class.java)
 }

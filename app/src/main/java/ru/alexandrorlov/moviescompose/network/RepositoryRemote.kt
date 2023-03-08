@@ -4,23 +4,24 @@ import ru.alexandrorlov.moviescompose.config.NetworkConfig.ImageType
 import ru.alexandrorlov.moviescompose.model.Actor
 import ru.alexandrorlov.moviescompose.model.MovieDetail
 import ru.alexandrorlov.moviescompose.model.Movie
+import ru.alexandrorlov.moviescompose.network.MapNetworkToModel.mapToActor
+import ru.alexandrorlov.moviescompose.network.MapNetworkToModel.mapToMovie
 
-object RepositoryNetwork {
-    private val networkClient: NetworkClientNetwork = NetworkClientNetwork.Singleton.instance
+object RepositoryRemote {
+    private val remoteDataSource: TMDBRemoteDataSource = TMDBRemoteDataSource.Singleton.instance
 
     suspend fun getResultListMovieFromNetwork(): Result<Any> {
         val movieList: List<Movie>
 
-        val resultListMoviePopular = networkClient.getResultListMoviePopularNetwork()
+        val response = remoteDataSource.getResultFromNetworkMoviePopularList()
 
-        if (resultListMoviePopular is Result.Success) {
-            val movieListPopularNetwork: MoviesPopularNetwork =
-                resultListMoviePopular.data as MoviesPopularNetwork
-            val moviesPopular: List<MoviePopularNetwork> = movieListPopularNetwork.moviesPopular
+        if (response is Result.Success) {
+            val resultFromNetworkMoviePopularList: ResultFromNetworkMoviePopularList =
+                response.data as ResultFromNetworkMoviePopularList
 
-            movieList = MapNetworkToModel.mapMovieListPopularToMovieList(moviesPopular)
+            movieList = resultFromNetworkMoviePopularList.mapToMovie()
         } else {
-            return resultListMoviePopular
+            return response
         }
         return Result.Success(movieList)
     }
@@ -28,13 +29,13 @@ object RepositoryNetwork {
     suspend fun getResultMovieDetailsNetwork(id: Int): Result<Any> {
         val movieDetail: MovieDetail
 
-        val resultMovieDetailsNetwork = networkClient.getResultMovieDetailNetwork(id)
+        val resultMovieDetailsNetwork = remoteDataSource.getResultMovieDetailNetwork(id)
 
         if (resultMovieDetailsNetwork is Result.Success) {
             val movieDetailsNetwork: MovieDetailsNetwork =
                 resultMovieDetailsNetwork.data as MovieDetailsNetwork
 
-            val actorList: List<Actor> = getActorList(movieDetailsNetwork)
+            val actorList: List<Actor> = getActorList(movieDetailsNetwork.id)
 
                 movieDetail = MovieDetail(
                     id = id,
@@ -58,9 +59,9 @@ object RepositoryNetwork {
                         ),
                     description = movieDetailsNetwork.overview,
                     genreList = MapNetworkToModel
-                        .mapGenresFromNetworkToModel(
-                            movieDetailsNetwork.genres
-                        ),
+                        .mapGenreNetworkListToModelList(
+                        movieDetailsNetwork.genreNetworkList
+                    ),
                     actorList = actorList
                 )
 
@@ -70,22 +71,16 @@ object RepositoryNetwork {
         return Result.Success(movieDetail)
     }
 
-    private suspend fun getActorList(movieDetailsNetwork: MovieDetailsNetwork) : List<Actor> {
+    private suspend fun getActorList(id: Int) : List<Actor> {
         val actorList: List <Actor>
 
-        val resultActorsNetwork = networkClient.getResultListActorsNetwork(movieDetailsNetwork.id)
+        val resultActorsNetwork = remoteDataSource.getResultListActorsNetwork(id)
 
         if (resultActorsNetwork is Result.Success) {
-            val actorsNetwork: ActorsNetwork =
-                resultActorsNetwork.data as ActorsNetwork
+            val resultActorNetworkList: ResultActorNetworkList =
+                resultActorsNetwork.data as ResultActorNetworkList
 
-            val actorNetworkList: List<ActorNetwork> = actorsNetwork.actors
-
-            actorList = MapNetworkToModel.getReduceActorList(
-                    MapNetworkToModel.mapActorNetworkListToModelList(
-                        actorNetworkList
-                    )
-                )
+            actorList = resultActorNetworkList.mapToActor()
 
         } else {
             return emptyList()

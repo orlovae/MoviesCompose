@@ -4,27 +4,35 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.alexandrorlov.moviescompose.model.Movie
-import ru.alexandrorlov.moviescompose.network.RepositoryNetwork
+import ru.alexandrorlov.moviescompose.network.RepositoryRemote
 import ru.alexandrorlov.moviescompose.network.Result
 
-class ViewModelMovieList(private val repositoryNetwork: RepositoryNetwork): ViewModel() {
+class ViewModelMovieList(private val repositoryRemote: RepositoryRemote): ViewModel() {
     private val _state: MutableStateFlow<StateMovieList> = MutableStateFlow(StateMovieList.Loading)
     val state = _state.asStateFlow()
 
+    private val coroutineExceptionHandler = CoroutineExceptionHandler{_, exception ->
+        _state.tryEmit(StateMovieList.Error(exception.message.toString()))
+    }
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             val resultMovieListFromNetwork = withContext(Dispatchers.IO) {
-                repositoryNetwork.getResultListMovieFromNetwork()
+                repositoryRemote.getResultListMovieFromNetwork()
             }
+
             if (resultMovieListFromNetwork is Result.Success) {
-                val movieList: List<Movie> = resultMovieListFromNetwork.data as List<Movie>
-                _state.emit(StateMovieList.Success(movieList))
+                val stateMovieList: StateMovieList = try {
+                    val movieList: List<Movie> = resultMovieListFromNetwork.data as List<Movie>
+                    StateMovieList.Success(movieList)
+                } catch (e: Exception) {
+                    StateMovieList.Error(e.message.toString())
+                }
+                _state.emit(stateMovieList)
             }
+
             if (resultMovieListFromNetwork is Result.Error) {
                 _state.emit(StateMovieList.Error(
                     resultMovieListFromNetwork.message
@@ -32,11 +40,12 @@ class ViewModelMovieList(private val repositoryNetwork: RepositoryNetwork): View
             }
         }
     }
+
     companion object {
         val FACTORY = viewModelFactory {
             initializer {
-                val repositoryNetwork = RepositoryNetwork
-                ViewModelMovieList(repositoryNetwork)
+                val repositoryRemote = RepositoryRemote
+                ViewModelMovieList(repositoryRemote)
             }
         }
     }

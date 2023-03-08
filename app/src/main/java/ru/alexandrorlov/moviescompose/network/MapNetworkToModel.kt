@@ -8,8 +8,8 @@ import ru.alexandrorlov.moviescompose.model.Genre
 import ru.alexandrorlov.moviescompose.model.Movie
 
 object MapNetworkToModel {
-    fun mapMovieListPopularToMovieList(movieListPopular: List<MoviePopularNetwork>) : List<Movie> {
-        return movieListPopular.map { moviePopularNetwork ->
+    fun ResultFromNetworkMoviePopularList.mapToMovie(): List<Movie> {
+        return moviePopularNetworkList.map { moviePopularNetwork ->
             Movie(
                 id = moviePopularNetwork.id,
                 title = moviePopularNetwork.title,
@@ -19,12 +19,12 @@ object MapNetworkToModel {
                 ),
                 rating = mapRatingToInt(
                     moviePopularNetwork.rating
-                )
-                //TODO наверное писать отдельный State для загрузки возрастного рейтинга
+                ),
+                description = moviePopularNetwork.description
             )
         }
     }
-    fun mapGenresFromNetworkToModel(genresNetwork: List<GenreNetwork>): List<Genre> {
+    fun mapGenreNetworkListToModelList(genresNetwork: List<GenreNetwork>): List<Genre> {
         return genresNetwork.map { genreNetwork ->
             Genre(
                 id = genreNetwork.id,
@@ -33,8 +33,8 @@ object MapNetworkToModel {
         }
     }
 
-    fun mapActorNetworkListToModelList(actorsNetwork: List<ActorNetwork>): List<Actor> {
-        return actorsNetwork.map { actorNetwork ->
+    fun ResultActorNetworkList.mapToActor(): List<Actor> {
+        return actorNetworkList.map { actorNetwork ->
             Actor(
                 id = actorNetwork.id,
                 name = actorNetwork.name,
@@ -68,15 +68,6 @@ object MapNetworkToModel {
             ImageType.ACTOR_PHOTO ->
                 NetworkConfig.getFirstPartURL(ImageType.ACTOR_PHOTO)+ path
         }
-    }
-
-    fun getReduceActorList(actors: List<Actor>): List<Actor> {
-        val sizeListActor: Int = if (actors.size < AppConfig.ACTOR_COUNT) {
-            actors.size
-        } else {
-            AppConfig.ACTOR_COUNT
-        }
-        return (actors).subList(0, sizeListActor)
     }
 
     fun mapRatingToInt(rating: Double): Int {

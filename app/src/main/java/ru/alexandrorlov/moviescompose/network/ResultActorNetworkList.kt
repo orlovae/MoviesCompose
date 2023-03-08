@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ActorsNetwork(
+data class ResultActorNetworkList(
     @SerialName("cast")
-    val actors: List<ActorNetwork>
+    val actorNetworkList: List<ActorNetwork>
 )
 
 @Serializable
@@ -18,5 +18,5 @@ data class ActorNetwork(
     val name: String,
 
     @SerialName("profile_path")
-    val photoPath: String? = null
+    val photoPath: String?
 )

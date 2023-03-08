@@ -40,7 +40,7 @@ fun ScreenMovieList(
                 Box(modifier = Modifier
                     .fillMaxSize()) {
                     Text(
-                        text = stringResource(id = R.string.error_sorry),
+                        text = (state.value as StateMovieList.Error).message,
                         modifier = Modifier
                             .fillMaxWidth(),
                         fontSize = 30.sp,

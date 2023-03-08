@@ -18,17 +18,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.alexandrorlov.moviescompose.R
 
 @Composable
 fun ScreenMovieDetail(
-    viewModelMovieDetail: ViewModelMovieDetail = viewModel(
+    viewModel: ViewModelMovieDetail = viewModel(
         factory = ViewModelMovieDetail.FACTORY
     )
 ) {
-    val state = viewModelMovieDetail.state.collectAsState()
+    val state = viewModel.state.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()

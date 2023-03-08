@@ -1,11 +1,10 @@
 package ru.alexandrorlov.moviescompose.network
 
 //TODO перенести значения error Message в ресурсы и м.б. подробнее расписать.
-class NetworkClientNetwork(private val api: TmdbApi) : NetworkClientBase() {
-
-    suspend fun getResultListMoviePopularNetwork(): Result<Any> {
+class TMDBRemoteDataSource(private val api: TMDBApiService) : TMDBRemoteDataSourceBase() {
+    suspend fun getResultFromNetworkMoviePopularList(): Result<Any> {
         return safeApiCall(
-            call = { api.getMoviesPopular() },
+            call = { api.getResultFromNetworkMoviePopularList() },
             errorMessage = "Error Fetching Popular Movies"
         )
     }
@@ -23,7 +22,22 @@ class NetworkClientNetwork(private val api: TmdbApi) : NetworkClientBase() {
             errorMessage = "Error Fetching Actors"
         )
     }
+
+    suspend fun getResultConfiguration(): Result<Any> {
+        return safeApiCall(
+            call = { api.getConfiguration() },
+            errorMessage = "Error Fetching Configuration Api"
+        )
+    }
+
+    suspend fun getResultLanguages(): Result<Any> {
+        return safeApiCall(
+            call = { api.getLanguages() },
+            errorMessage = "Error Fetching Configuration Api"
+        )
+    }
+
     object Singleton {
-        val instance = NetworkClientNetwork(RetrofitModule.tmdbApi)
+        val instance = TMDBRemoteDataSource(RetrofitModule.tmdbApiService)
     }
 }

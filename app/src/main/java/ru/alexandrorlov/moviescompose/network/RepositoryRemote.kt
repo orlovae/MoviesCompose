@@ -29,11 +29,11 @@ object RepositoryRemote {
     suspend fun getResultMovieDetailsNetwork(id: Int): Result<Any> {
         val movieDetail: MovieDetail
 
-        val resultMovieDetailsNetwork = remoteDataSource.getResultMovieDetailNetwork(id)
+        val resultMovieDetailNetwork = remoteDataSource.getResultMovieDetailNetwork(id)
 
-        if (resultMovieDetailsNetwork is Result.Success) {
+        if (resultMovieDetailNetwork is Result.Success) {
             val movieDetailsNetwork: MovieDetailsNetwork =
-                resultMovieDetailsNetwork.data as MovieDetailsNetwork
+                resultMovieDetailNetwork.data as MovieDetailsNetwork
 
             val actorList: List<Actor> = getActorList(movieDetailsNetwork.id)
 
@@ -66,7 +66,7 @@ object RepositoryRemote {
                 )
 
         } else {
-            return resultMovieDetailsNetwork
+            return resultMovieDetailNetwork
         }
         return Result.Success(movieDetail)
     }

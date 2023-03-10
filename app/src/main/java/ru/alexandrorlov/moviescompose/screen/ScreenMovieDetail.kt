@@ -78,9 +78,7 @@ fun ScreenMovieDetail(
                         shape = RoundedCornerShape(30.dp)
 
                     ) {
-                        Column(
-                            modifier = Modifier
-                        ) {
+                        Column{
                             ComponentMovieDetailRowGenreDateRealise(movieDetail = movieDetail)
                             ComponentMovieDetailRowNameAgeRating(movieDetail = movieDetail)
                             Box(

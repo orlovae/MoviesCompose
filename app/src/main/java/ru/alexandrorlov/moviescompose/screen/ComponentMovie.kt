@@ -35,9 +35,7 @@ fun ComponentMovie(
             },
         shape = RoundedCornerShape(20.dp)
     ) {
-        Column(
-            modifier = Modifier
-        ) {
+        Column {
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
                     .data(movie.poster)

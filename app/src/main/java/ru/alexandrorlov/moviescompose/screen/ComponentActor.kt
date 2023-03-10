@@ -21,9 +21,7 @@ import ru.alexandrorlov.moviescompose.model.Actor
 fun ComponentActor(
     actor: Actor
 ) {
-    Column(
-        modifier = Modifier
-    ) {
+    Column{
         AsyncImage(
             model = actor.photo,
             placeholder = painterResource(id = R.drawable.ic_launcher_foreground),

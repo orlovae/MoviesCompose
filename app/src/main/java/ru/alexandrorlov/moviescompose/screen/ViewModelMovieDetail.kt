@@ -27,7 +27,7 @@ class ViewModelMovieDetail(
     init{
         val movieDetailId: String? = savedStateHandle["id"]
 
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             movieDetailId?.let {
                 val resultMovieDetailFromNetwork = withContext(Dispatchers.IO) {
                     repositoryRemote.getResultMovieDetailsNetwork(movieDetailId.toInt())

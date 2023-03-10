@@ -18,9 +18,7 @@ fun ComponentActorList(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        LazyRow(
-            modifier = Modifier
-        ){
+        LazyRow {
             items(actorList) { actor ->
                 ComponentActor(actor = actor)
                 Spacer(

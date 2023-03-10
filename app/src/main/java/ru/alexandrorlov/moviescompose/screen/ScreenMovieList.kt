@@ -4,18 +4,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import ru.alexandrorlov.moviescompose.R
 
 @Composable
 fun ScreenMovieList(
@@ -52,7 +50,7 @@ fun ScreenMovieList(
             }
             is StateMovieList.Success -> {
                 LazyColumn {
-                    itemsIndexed(items = (state.value as StateMovieList.Success).movieList) { _, item ->
+                    items(items = (state.value as StateMovieList.Success).movieList) { item ->
                         ComponentMovie(
                             movie = item,
                             onClick = onMovieClick

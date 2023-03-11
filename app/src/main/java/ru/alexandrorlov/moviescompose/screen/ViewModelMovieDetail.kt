@@ -1,6 +1,5 @@
 package ru.alexandrorlov.moviescompose.screen
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.createSavedStateHandle
@@ -12,7 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import ru.alexandrorlov.moviescompose.data.Repository
 import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
-import ru.alexandrorlov.moviescompose.data.remote.RepositoryRemote
 import ru.alexandrorlov.moviescompose.data.remote.Result
 
 class ViewModelMovieDetail(
@@ -28,26 +26,25 @@ class ViewModelMovieDetail(
 
     init{
         val movieDetailId: String? = savedStateHandle["id"]
-        Log.d("OAE", "ViewModelMovieDetail movieDetailId = $movieDetailId")
 
         viewModelScope.launch(coroutineExceptionHandler) {
             movieDetailId?.let {
-                val resultMovieDetailFromNetwork = withContext(Dispatchers.IO) {
+                val resultMovieDetail = withContext(Dispatchers.IO) {
                     repository.getResultMovieDetails(movieDetailId.toInt())
                 }
-                if (resultMovieDetailFromNetwork is Result.Success) {
+                if (resultMovieDetail is Result.Success) {
                     val stateMovieDetail = try {
-                        val movieDetail = resultMovieDetailFromNetwork.data as MovieDetail
+                        val movieDetail = resultMovieDetail.data as MovieDetail
                         StateMovieDetail.Success(movieDetail)
                     } catch (e: Exception) {
                         StateMovieDetail.Error(e.message.toString())
                     }
                     _state.emit(stateMovieDetail)
                 }
-                if (resultMovieDetailFromNetwork is Result.Error) {
+                if (resultMovieDetail is Result.Error) {
                     _state.emit(
                         StateMovieDetail.Error(
-                            resultMovieDetailFromNetwork.message
+                            resultMovieDetail.message
                         )
                     )
                 }

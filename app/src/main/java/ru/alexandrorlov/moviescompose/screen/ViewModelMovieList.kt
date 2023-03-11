@@ -1,6 +1,5 @@
 package ru.alexandrorlov.moviescompose.screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
@@ -17,7 +16,6 @@ class ViewModelMovieList(private val repository: Repository): ViewModel() {
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler{_, exception ->
         _state.tryEmit(StateMovieList.Error(exception.message.toString()))
-//        Log.d("OAE","coroutineExceptionHandler error = ${exception.message}")
     }
 
     init {

@@ -1,11 +1,14 @@
-package ru.alexandrorlov.moviescompose.network
+package ru.alexandrorlov.moviescompose.data.remote
 
-import ru.alexandrorlov.moviescompose.config.AppConfig
-import ru.alexandrorlov.moviescompose.config.NetworkConfig.ImageType
-import ru.alexandrorlov.moviescompose.config.NetworkConfig
-import ru.alexandrorlov.moviescompose.model.Actor
-import ru.alexandrorlov.moviescompose.model.Genre
-import ru.alexandrorlov.moviescompose.model.Movie
+import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ImageType
+import ru.alexandrorlov.moviescompose.config.DataRemoteConfig
+import ru.alexandrorlov.moviescompose.model.remote.GenreNetwork
+import ru.alexandrorlov.moviescompose.model.remote.MovieDetailsNetwork
+import ru.alexandrorlov.moviescompose.model.remote.ResultActorNetworkList
+import ru.alexandrorlov.moviescompose.model.remote.ResultFromNetworkMoviePopularList
+import ru.alexandrorlov.moviescompose.model.ui.Actor
+import ru.alexandrorlov.moviescompose.model.ui.Genre
+import ru.alexandrorlov.moviescompose.model.ui.Movie
 
 object MapNetworkToModel {
     fun ResultFromNetworkMoviePopularList.mapToMovie(): List<Movie> {
@@ -49,24 +52,24 @@ object MapNetworkToModel {
 
         result.forEach {
             if (it.iso_3166_1.equals(
-                    NetworkConfig.LANGUAGE_FOR_PG,
+                    DataRemoteConfig.LANGUAGE_FOR_PG,
                     ignoreCase = true
                 )
             ) {
                 return it.release_dates_result_item[0].certification.toString()
             }
         }
-        return NetworkConfig.ERROR_PG
+        return DataRemoteConfig.ERROR_PG
     }
 
     fun buildUrlImage(imageType: ImageType, path: String?): String {
         return when (imageType) {
             ImageType.MOVIE_POSTER ->
-                NetworkConfig.getFirstPartURL(ImageType.MOVIE_POSTER) + path
+                DataRemoteConfig.getFirstPartURL(ImageType.MOVIE_POSTER) + path
             ImageType.MOVIE_BACKDROP ->
-                NetworkConfig.getFirstPartURL(ImageType.MOVIE_BACKDROP) + path
+                DataRemoteConfig.getFirstPartURL(ImageType.MOVIE_BACKDROP) + path
             ImageType.ACTOR_PHOTO ->
-                NetworkConfig.getFirstPartURL(ImageType.ACTOR_PHOTO)+ path
+                DataRemoteConfig.getFirstPartURL(ImageType.ACTOR_PHOTO)+ path
         }
     }
 

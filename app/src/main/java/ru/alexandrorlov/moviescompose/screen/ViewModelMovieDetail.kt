@@ -1,5 +1,6 @@
 package ru.alexandrorlov.moviescompose.screen
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.createSavedStateHandle
@@ -9,12 +10,13 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import ru.alexandrorlov.moviescompose.model.MovieDetail
-import ru.alexandrorlov.moviescompose.network.RepositoryRemote
-import ru.alexandrorlov.moviescompose.network.Result
+import ru.alexandrorlov.moviescompose.data.Repository
+import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
+import ru.alexandrorlov.moviescompose.data.remote.RepositoryRemote
+import ru.alexandrorlov.moviescompose.data.remote.Result
 
 class ViewModelMovieDetail(
-    private val repositoryRemote: RepositoryRemote,
+    private val repository: Repository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _state: MutableStateFlow<StateMovieDetail> = MutableStateFlow(StateMovieDetail.Loading)
@@ -26,11 +28,12 @@ class ViewModelMovieDetail(
 
     init{
         val movieDetailId: String? = savedStateHandle["id"]
+        Log.d("OAE", "ViewModelMovieDetail movieDetailId = $movieDetailId")
 
         viewModelScope.launch(coroutineExceptionHandler) {
             movieDetailId?.let {
                 val resultMovieDetailFromNetwork = withContext(Dispatchers.IO) {
-                    repositoryRemote.getResultMovieDetailsNetwork(movieDetailId.toInt())
+                    repository.getResultMovieDetails(movieDetailId.toInt())
                 }
                 if (resultMovieDetailFromNetwork is Result.Success) {
                     val stateMovieDetail = try {
@@ -55,9 +58,9 @@ class ViewModelMovieDetail(
     companion object{
         val FACTORY = viewModelFactory {
             initializer {
-                val repositoryRemote = RepositoryRemote
+                val repository = Repository()
                 val savedStateHandle = createSavedStateHandle()
-                ViewModelMovieDetail(repositoryRemote, savedStateHandle)
+                ViewModelMovieDetail(repository, savedStateHandle)
             }
         }
     }

@@ -1,6 +1,6 @@
 package ru.alexandrorlov.moviescompose.screen
 
-import ru.alexandrorlov.moviescompose.model.MovieDetail
+import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
 
 sealed class StateMovieDetail {
     object Loading: StateMovieDetail()

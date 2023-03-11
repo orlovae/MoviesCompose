@@ -1,6 +1,5 @@
 package ru.alexandrorlov.moviescompose.data
 
-import android.util.Log
 import ru.alexandrorlov.moviescompose.data.local.RepositoryLocal
 import ru.alexandrorlov.moviescompose.data.remote.RepositoryRemote
 import ru.alexandrorlov.moviescompose.model.ui.Movie

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ru.alexandrorlov.moviescompose.R
-import ru.alexandrorlov.moviescompose.model.Actor
+import ru.alexandrorlov.moviescompose.model.ui.Actor
 
 @Composable
 fun ComponentActor(

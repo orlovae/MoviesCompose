@@ -1,4 +1,4 @@
-package ru.alexandrorlov.moviescompose.network
+package ru.alexandrorlov.moviescompose.data.remote
 
 sealed class Result<out T : Any> {
     data class Success<out T : Any>(val data: Any?) : Result<T>()

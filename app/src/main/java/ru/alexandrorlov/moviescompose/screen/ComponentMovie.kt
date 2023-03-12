@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import ru.alexandrorlov.moviescompose.R
-import ru.alexandrorlov.moviescompose.model.Movie
+import ru.alexandrorlov.moviescompose.model.ui.Movie
 
 
 @Composable

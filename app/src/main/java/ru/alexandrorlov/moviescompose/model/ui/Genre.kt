@@ -1,4 +1,4 @@
-package ru.alexandrorlov.moviescompose.model
+package ru.alexandrorlov.moviescompose.model.ui
 
 import ru.alexandrorlov.moviescompose.config.ModelConfig.ERROR_INT
 import ru.alexandrorlov.moviescompose.config.ModelConfig.ERROR_STRING

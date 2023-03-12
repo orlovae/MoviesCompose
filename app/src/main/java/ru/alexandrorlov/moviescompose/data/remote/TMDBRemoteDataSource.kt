@@ -1,4 +1,4 @@
-package ru.alexandrorlov.moviescompose.network
+package ru.alexandrorlov.moviescompose.data.remote
 
 //TODO перенести значения error Message в ресурсы и м.б. подробнее расписать.
 class TMDBRemoteDataSource(private val api: TMDBApiService) : TMDBRemoteDataSourceBase() {

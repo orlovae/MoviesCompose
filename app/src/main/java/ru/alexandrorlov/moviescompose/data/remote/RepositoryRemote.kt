@@ -1,11 +1,14 @@
-package ru.alexandrorlov.moviescompose.network
+package ru.alexandrorlov.moviescompose.data.remote
 
-import ru.alexandrorlov.moviescompose.config.NetworkConfig.ImageType
-import ru.alexandrorlov.moviescompose.model.Actor
-import ru.alexandrorlov.moviescompose.model.MovieDetail
-import ru.alexandrorlov.moviescompose.model.Movie
-import ru.alexandrorlov.moviescompose.network.MapNetworkToModel.mapToActor
-import ru.alexandrorlov.moviescompose.network.MapNetworkToModel.mapToMovie
+import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ImageType
+import ru.alexandrorlov.moviescompose.model.ui.Actor
+import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
+import ru.alexandrorlov.moviescompose.model.ui.Movie
+import ru.alexandrorlov.moviescompose.data.remote.MapNetworkToModel.mapToActor
+import ru.alexandrorlov.moviescompose.data.remote.MapNetworkToModel.mapToMovie
+import ru.alexandrorlov.moviescompose.model.remote.MovieDetailsNetwork
+import ru.alexandrorlov.moviescompose.model.remote.ResultActorNetworkList
+import ru.alexandrorlov.moviescompose.model.remote.ResultFromNetworkMoviePopularList
 
 object RepositoryRemote {
     private val remoteDataSource: TMDBRemoteDataSource = TMDBRemoteDataSource.Singleton.instance
@@ -49,17 +52,14 @@ object RepositoryRemote {
                         movieDetailsNetwork.backdrop
                     ),
                     dateRelease = movieDetailsNetwork.releaseDate,
-                    rating = MapNetworkToModel
-                        .mapRatingToInt(
-                            movieDetailsNetwork.rating
-                        ),
-                    ageRating = MapNetworkToModel
-                        .getAgeRating(
-                            movieDetailsNetwork
-                        ),
+                    rating = MapNetworkToModel.mapRatingToInt(
+                        movieDetailsNetwork.rating
+                    ),
+                    ageRating = MapNetworkToModel.getAgeRating(
+                        movieDetailsNetwork
+                    ),
                     description = movieDetailsNetwork.overview,
-                    genreList = MapNetworkToModel
-                        .mapGenreNetworkListToModelList(
+                    genreList = MapNetworkToModel.mapGenreNetworkListToModelList(
                         movieDetailsNetwork.genreNetworkList
                     ),
                     actorList = actorList

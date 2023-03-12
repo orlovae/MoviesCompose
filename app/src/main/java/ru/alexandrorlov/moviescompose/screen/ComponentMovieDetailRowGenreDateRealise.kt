@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.alexandrorlov.moviescompose.model.MovieDetail
+import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
 
 @Composable
 fun ComponentMovieDetailRowGenreDateRealise(

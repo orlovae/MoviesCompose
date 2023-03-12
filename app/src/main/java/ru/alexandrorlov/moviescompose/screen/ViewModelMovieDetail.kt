@@ -9,12 +9,12 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import ru.alexandrorlov.moviescompose.model.MovieDetail
-import ru.alexandrorlov.moviescompose.network.RepositoryRemote
-import ru.alexandrorlov.moviescompose.network.Result
+import ru.alexandrorlov.moviescompose.data.Repository
+import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
+import ru.alexandrorlov.moviescompose.data.remote.Result
 
 class ViewModelMovieDetail(
-    private val repositoryRemote: RepositoryRemote,
+    private val repository: Repository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _state: MutableStateFlow<StateMovieDetail> = MutableStateFlow(StateMovieDetail.Loading)
@@ -29,22 +29,22 @@ class ViewModelMovieDetail(
 
         viewModelScope.launch(coroutineExceptionHandler) {
             movieDetailId?.let {
-                val resultMovieDetailFromNetwork = withContext(Dispatchers.IO) {
-                    repositoryRemote.getResultMovieDetailsNetwork(movieDetailId.toInt())
+                val resultMovieDetail = withContext(Dispatchers.IO) {
+                    repository.getResultMovieDetail(movieDetailId.toInt())
                 }
-                if (resultMovieDetailFromNetwork is Result.Success) {
+                if (resultMovieDetail is Result.Success) {
                     val stateMovieDetail = try {
-                        val movieDetail = resultMovieDetailFromNetwork.data as MovieDetail
+                        val movieDetail = resultMovieDetail.data as MovieDetail
                         StateMovieDetail.Success(movieDetail)
                     } catch (e: Exception) {
                         StateMovieDetail.Error(e.message.toString())
                     }
                     _state.emit(stateMovieDetail)
                 }
-                if (resultMovieDetailFromNetwork is Result.Error) {
+                if (resultMovieDetail is Result.Error) {
                     _state.emit(
                         StateMovieDetail.Error(
-                            resultMovieDetailFromNetwork.message
+                            resultMovieDetail.message
                         )
                     )
                 }
@@ -55,9 +55,9 @@ class ViewModelMovieDetail(
     companion object{
         val FACTORY = viewModelFactory {
             initializer {
-                val repositoryRemote = RepositoryRemote
+                val repository = Repository()
                 val savedStateHandle = createSavedStateHandle()
-                ViewModelMovieDetail(repositoryRemote, savedStateHandle)
+                ViewModelMovieDetail(repository, savedStateHandle)
             }
         }
     }

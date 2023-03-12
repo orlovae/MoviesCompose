@@ -2,7 +2,7 @@ package ru.alexandrorlov.moviescompose.config
 
 import ru.alexandrorlov.moviescompose.R
 
-object NetworkConfig {
+object DataRemoteConfig {
     const val ERROR_IMAGE = R.drawable.ic_launcher_error.toString()
 
     const val LANGUAGE_FOR_PG = "US"

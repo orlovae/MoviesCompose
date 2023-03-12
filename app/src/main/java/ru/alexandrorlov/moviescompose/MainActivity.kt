@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                     composable(
-                        route = "movie"
+                        route = "movie/{id}"
                     )
                     {
                         ScreenMovieDetail()

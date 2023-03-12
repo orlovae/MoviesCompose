@@ -4,4 +4,7 @@
     <string name="loading">Data Loading, please wait.</string>
     <string name="error_sorry">Sorry an error has occurred</string>
     <string name="error_movie_detail">Movie is NULL!</string>
+
+    <!--ScreenMovieList-->
+    <string name="error">ERROR</string>
 </resources>

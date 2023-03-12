@@ -1,4 +1,4 @@
-package ru.alexandrorlov.moviescompose.network
+package ru.alexandrorlov.moviescompose.data.remote
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -8,7 +8,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import ru.alexandrorlov.moviescompose.config.NetworkConfig
+import ru.alexandrorlov.moviescompose.config.DataRemoteConfig
 
 object RetrofitModule {
     private val json = Json {
@@ -31,7 +31,7 @@ object RetrofitModule {
     @Suppress("EXPERIMENTAL_API_USAGE")
     fun retrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(
-            NetworkConfig.getBaseURLGet()
+            DataRemoteConfig.getBaseURLGet()
         )
         //TODO Посмотреть где получаем Cofiguration, сделать проверку на соответствие baseURL из Network.kt из сети. Если неверный то менять.
         .addConverterFactory(json.asConverterFactory(contentType))

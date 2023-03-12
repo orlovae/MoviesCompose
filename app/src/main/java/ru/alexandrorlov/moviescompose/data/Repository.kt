@@ -10,24 +10,32 @@ class Repository {
     private val repositoryLocal = RepositoryLocal()
     private val repositoryRemote = RepositoryRemote
 
-    suspend fun getResultListMovie(): Result<Any>{
-        var movieList: List<Movie> = repositoryLocal.getAllMovie()
+    suspend fun getResultMovieList(): Result<Any> {
+        val movieList: List<Movie> = repositoryLocal.getAllMovie()
         return if (movieList.isEmpty()) {
-            val resultRemote = repositoryRemote.getResultListMovieFromNetwork()
-            if (resultRemote is Result.Success) {
-                movieList = resultRemote.data as List<Movie>
-                repositoryLocal.deleteAll()
-                repositoryLocal.insertAll(movieList)
-                Result.Success(movieList)
+            val result = fetchResultMovieList()
+            if (result is Result.Success) {
+                Result.Success(result.data)
             } else {
-                resultRemote
+                result
             }
         } else {
             Result.Success(movieList)
         }
     }
+    suspend fun fetchResultMovieList(): Result<Any> {
+        val resultRemote = repositoryRemote.getResultListMovieFromNetwork()
+        return if (resultRemote is Result.Success) {
+            val movieList = resultRemote.data as List<Movie>
+            repositoryLocal.deleteAll()
+            repositoryLocal.insertAll(movieList)
+            Result.Success(movieList)
+        } else {
+            resultRemote
+        }
+    }
 
-    suspend fun getResultMovieDetails(id: Int): Result<Any> {
+    suspend fun getResultMovieDetail(id: Int): Result<Any> {
         var movieDetail = repositoryLocal.getMovieDetail(id)
 
         return if (movieDetail.dateRelease.isEmpty()) {

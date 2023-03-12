@@ -14,14 +14,27 @@ class ViewModelMovieList(private val repository: Repository): ViewModel() {
     private val _state: MutableStateFlow<StateMovieList> = MutableStateFlow(StateMovieList.Loading)
     val state = _state.asStateFlow()
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing.asStateFlow()
+
+
     private val coroutineExceptionHandler = CoroutineExceptionHandler{_, exception ->
         _state.tryEmit(StateMovieList.Error(exception.message.toString()))
     }
 
+    private var getDataJob: Job? = null
+
     init {
-        viewModelScope.launch(coroutineExceptionHandler) {
+        update()
+    }
+
+    fun update() {
+        if (getDataJob?.isActive == true) return
+
+        getDataJob = viewModelScope.launch(coroutineExceptionHandler) {
             val resultMovieList = withContext(Dispatchers.IO) {
-                repository.getResultListMovie()
+                repository.getResultMovieList()
             }
             if (resultMovieList is Result.Success) {
                 val stateMovieList: StateMovieList = try {
@@ -34,10 +47,13 @@ class ViewModelMovieList(private val repository: Repository): ViewModel() {
             }
 
             if (resultMovieList is Result.Error) {
-                _state.emit(StateMovieList.Error(
-                    resultMovieList.message
-                ))
+                _state.emit(
+                    StateMovieList.Error(
+                        resultMovieList.message
+                    )
+                )
             }
+            _isRefreshing.emit(false)
         }
     }
 

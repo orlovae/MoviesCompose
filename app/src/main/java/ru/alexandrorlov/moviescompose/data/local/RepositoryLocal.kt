@@ -1,7 +1,5 @@
 package ru.alexandrorlov.moviescompose.data.local
 
-import android.util.Log
-import ru.alexandrorlov.moviescompose.App
 import ru.alexandrorlov.moviescompose.model.ui.Movie
 import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
 
@@ -11,14 +9,9 @@ class RepositoryLocal() {
     private val mapperUiToDb = MapperUiToDb()
 
     suspend fun getAllMovie(): List<Movie> {
-        Log.d("OAE", "getAllMovie start")
-
-
-        val list = mapperDbToUi.mapToMovieUiList(
+        return mapperDbToUi.mapToMovieUiList(
             dB.MovieDao().getAll()
         )
-        Log.d("OAE", "getAllMovie end")
-        return list
     }
 
     suspend fun getAllMovieDetail(): List<MovieDetail> {
@@ -48,6 +41,4 @@ class RepositoryLocal() {
     suspend fun deleteAll() {
         dB.MovieDao().deleteAll()
     }
-
-
 }

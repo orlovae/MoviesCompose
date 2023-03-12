@@ -30,7 +30,7 @@ class ViewModelMovieDetail(
         viewModelScope.launch(coroutineExceptionHandler) {
             movieDetailId?.let {
                 val resultMovieDetail = withContext(Dispatchers.IO) {
-                    repository.getResultMovieDetails(movieDetailId.toInt())
+                    repository.getResultMovieDetail(movieDetailId.toInt())
                 }
                 if (resultMovieDetail is Result.Success) {
                     val stateMovieDetail = try {

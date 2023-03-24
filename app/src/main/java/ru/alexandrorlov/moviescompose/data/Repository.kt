@@ -2,13 +2,17 @@ package ru.alexandrorlov.moviescompose.data
 
 import ru.alexandrorlov.moviescompose.data.local.RepositoryLocal
 import ru.alexandrorlov.moviescompose.data.remote.RepositoryRemote
-import ru.alexandrorlov.moviescompose.model.ui.Movie
 import ru.alexandrorlov.moviescompose.data.remote.Result
+import ru.alexandrorlov.moviescompose.di.AppScope
+import ru.alexandrorlov.moviescompose.model.ui.Movie
 import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
+import javax.inject.Inject
 
-class Repository {
-    private val repositoryLocal = RepositoryLocal()
-    private val repositoryRemote = RepositoryRemote
+@AppScope
+class Repository @Inject constructor(
+    private val repositoryLocal: RepositoryLocal,
+    private val repositoryRemote: RepositoryRemote
+) {
 
     suspend fun getResultMovieList(): Result<Any> {
         val movieList: List<Movie> = repositoryLocal.getAllMovie()
@@ -23,6 +27,7 @@ class Repository {
             Result.Success(movieList)
         }
     }
+
     suspend fun fetchResultMovieList(): Result<Any> {
         val resultRemote = repositoryRemote.getResultListMovieFromNetwork()
         return if (resultRemote is Result.Success) {

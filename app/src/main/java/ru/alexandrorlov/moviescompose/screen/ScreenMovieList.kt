@@ -29,9 +29,7 @@ import ru.alexandrorlov.moviescompose.R
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ScreenMovieList(
-    viewModel: ViewModelMovieList = viewModel(
-        factory = ViewModelMovieList.FACTORY
-    ),
+    viewModel: ViewModelMovieList,
     onMovieClick: (Int) -> Unit
 ) {
     val state = viewModel.state.collectAsState()
@@ -44,21 +42,26 @@ fun ScreenMovieList(
 
     val pullRefreshState = rememberPullRefreshState(
         refreshing = isRefreshing.value,
-        onRefresh = ::refresh)
+        onRefresh = ::refresh
+    )
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
         when (state.value) {
             is StateMovieList.Loading -> {
-                Box(modifier = Modifier
-                    .fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
                     ComponentCircularProgressAnimated()
                 }
             }
             is StateMovieList.Error -> {
-                Box(modifier = Modifier
-                    .fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
                     Text(
                         text = stringResource(R.string.error) +
                                 System.lineSeparator() +
@@ -76,7 +79,8 @@ fun ScreenMovieList(
                 Box(
                     modifier = Modifier
                         .padding()
-                        .pullRefresh(pullRefreshState)) {
+                        .pullRefresh(pullRefreshState)
+                ) {
                     LazyColumn {
                         items(items = (state.value as StateMovieList.Success).movieList) { item ->
                             ComponentMovie(
@@ -89,7 +93,8 @@ fun ScreenMovieList(
                         refreshing = isRefreshing.value,
                         state = pullRefreshState,
                         modifier = Modifier
-                            .align(Alignment.TopCenter))
+                            .align(Alignment.TopCenter)
+                    )
                 }
             }
         }

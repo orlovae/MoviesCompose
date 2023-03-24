@@ -9,6 +9,15 @@ object DataRemoteConfig {
 
     const val ERROR_PG = "THE RATING IS NOT SET"
 
+    const val SEPARATE_SYMBOL = "|"
+
+    const val ERROR_REMOTE_MOVIE_POPULAR = "Error Fetching Popular Movies"
+    const val ERROR_REMOTE_MOVIE_DETAIL = "Error Fetching Movie Detail"
+    const val ERROR_REMOTE_ACTOR = "Error Fetching Actors"
+    const val ERROR_REMOTE_CONFIGURATION = "Error Fetching Configuration Api"
+
+    const val JSON = "application/json"
+
     fun getBaseURLGet(): String {
         return BASE_URL_GET
     }

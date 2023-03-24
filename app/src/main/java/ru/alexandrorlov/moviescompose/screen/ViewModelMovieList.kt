@@ -2,15 +2,15 @@ package ru.alexandrorlov.moviescompose.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import ru.alexandrorlov.moviescompose.data.Repository
-import ru.alexandrorlov.moviescompose.model.ui.Movie
 import ru.alexandrorlov.moviescompose.data.remote.Result
+import ru.alexandrorlov.moviescompose.model.ui.Movie
 
-class ViewModelMovieList(private val repository: Repository): ViewModel() {
+class ViewModelMovieList(private val repository: Repository) : ViewModel() {
     private val _state: MutableStateFlow<StateMovieList> = MutableStateFlow(StateMovieList.Loading)
     val state = _state.asStateFlow()
 
@@ -18,8 +18,7 @@ class ViewModelMovieList(private val repository: Repository): ViewModel() {
     val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
 
-
-    private val coroutineExceptionHandler = CoroutineExceptionHandler{_, exception ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _state.tryEmit(StateMovieList.Error(exception.message.toString()))
     }
 
@@ -54,15 +53,6 @@ class ViewModelMovieList(private val repository: Repository): ViewModel() {
                 )
             }
             _isRefreshing.emit(false)
-        }
-    }
-
-    companion object {
-        val FACTORY = viewModelFactory {
-            initializer {
-                val repository = Repository()
-                ViewModelMovieList(repository)
-            }
         }
     }
 }

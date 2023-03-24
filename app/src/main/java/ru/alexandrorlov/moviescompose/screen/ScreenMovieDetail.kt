@@ -18,15 +18,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import ru.alexandrorlov.moviescompose.R
 
 @Composable
 fun ScreenMovieDetail(
-    viewModel: ViewModelMovieDetail = viewModel(
-        factory = ViewModelMovieDetail.FACTORY
-    )
+    viewModel: ViewModelMovieDetail
 ) {
     val state = viewModel.state.collectAsState()
     Box(
@@ -35,14 +33,18 @@ fun ScreenMovieDetail(
     ) {
         when (state.value) {
             is StateMovieDetail.Loading -> {
-                Box(modifier = Modifier
-                    .fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
                     ComponentCircularProgressAnimated()
                 }
             }
             is StateMovieDetail.Error -> {
-                Box(modifier = Modifier
-                    .fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
                     Text(
                         text = stringResource(R.string.error) +
                                 System.lineSeparator() +
@@ -80,7 +82,7 @@ fun ScreenMovieDetail(
                         shape = RoundedCornerShape(30.dp)
 
                     ) {
-                        Column{
+                        Column {
                             ComponentMovieDetailRowGenreDateRealise(movieDetail = movieDetail)
                             ComponentMovieDetailRowNameAgeRating(movieDetail = movieDetail)
                             Box(

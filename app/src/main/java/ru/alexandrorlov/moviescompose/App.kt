@@ -1,18 +1,16 @@
 package ru.alexandrorlov.moviescompose
 
 import android.app.Application
-import android.content.Context
-import androidx.room.Room
-import ru.alexandrorlov.moviescompose.config.DataLocalConfig
-import ru.alexandrorlov.moviescompose.data.local.LocalDataBase
+import ru.alexandrorlov.moviescompose.di.AppComponent
+import ru.alexandrorlov.moviescompose.di.DaggerAppComponent
 
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        appContext = applicationContext
+        appComponent = DaggerAppComponent.factory().create(this)
     }
 
     companion object {
-        lateinit var appContext: Context
+        lateinit var appComponent: AppComponent
     }
 }

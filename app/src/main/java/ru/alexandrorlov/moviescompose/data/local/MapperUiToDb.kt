@@ -1,12 +1,15 @@
 package ru.alexandrorlov.moviescompose.data.local
 
+import ru.alexandrorlov.moviescompose.di.AppScope
 import ru.alexandrorlov.moviescompose.model.entity.GenreDb
 import ru.alexandrorlov.moviescompose.model.entity.MovieDb
 import ru.alexandrorlov.moviescompose.model.ui.Genre
 import ru.alexandrorlov.moviescompose.model.ui.Movie
 import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
+import javax.inject.Inject
 
-class MapperUiToDb {
+@AppScope
+class MapperUiToDb @Inject constructor() {
     fun Movie.mapToMovieDb(): MovieDb {
         return MovieDb(
             id = id,
@@ -63,7 +66,7 @@ class MapperUiToDb {
     }
 
     fun List<Genre>.mapToGenreDbList(list: List<Genre>): List<GenreDb> {
-        return list.map {genre ->
+        return list.map { genre ->
             genre.mapToGenreDb()
         }
     }

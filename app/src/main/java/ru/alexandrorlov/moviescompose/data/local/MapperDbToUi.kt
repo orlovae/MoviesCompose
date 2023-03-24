@@ -1,14 +1,16 @@
 package ru.alexandrorlov.moviescompose.data.local
 
-import android.util.Log
+import ru.alexandrorlov.moviescompose.di.AppScope
 import ru.alexandrorlov.moviescompose.model.entity.GenreDb
 import ru.alexandrorlov.moviescompose.model.entity.MovieDb
 import ru.alexandrorlov.moviescompose.model.ui.Actor
 import ru.alexandrorlov.moviescompose.model.ui.Genre
 import ru.alexandrorlov.moviescompose.model.ui.Movie
 import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
+import javax.inject.Inject
 
-class MapperDbToUi {
+@AppScope
+class MapperDbToUi @Inject constructor() {
     fun MovieDb.mapToMovieUi(): Movie {
         return Movie(
             id = id,
@@ -21,7 +23,6 @@ class MapperDbToUi {
     }
 
     fun mapToMovieUiList(list: List<MovieDb>): List<Movie> {
-        Log.d("OAE", "mapToMovieUiList start")
         return list.map { movieDb ->
             movieDb.mapToMovieUi()
         }
@@ -50,7 +51,7 @@ class MapperDbToUi {
             for (index in genreIdList.indices) {
                 genreList.add(
                     Genre(
-                        id =  genreIdList[index],
+                        id = genreIdList[index],
                         name = genreNameList[index]
                     )
                 )
@@ -66,13 +67,14 @@ class MapperDbToUi {
         val actorPhotoList = movieDb.actorPhoto
 
         if (actorIdList.size == actorNameList.size &&
-            actorNameList.size == actorPhotoList.size) {
+            actorNameList.size == actorPhotoList.size
+        ) {
             for (index in actorIdList.indices) {
                 actorList.add(
                     Actor(
                         id = actorIdList[index],
                         name = actorNameList[index],
-                        photo =  actorPhotoList[index]
+                        photo = actorPhotoList[index]
                     )
                 )
             }
@@ -81,7 +83,7 @@ class MapperDbToUi {
     }
 
     fun mapToMovieDetailUiList(list: List<MovieDb>): List<MovieDetail> {
-        return list.map {movieDb ->
+        return list.map { movieDb ->
             mapToMovieDetailUi(movieDb)
         }
     }

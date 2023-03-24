@@ -1,43 +1,48 @@
 package ru.alexandrorlov.moviescompose.data.remote
 
+import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ERROR_REMOTE_ACTOR
+import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ERROR_REMOTE_CONFIGURATION
+import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ERROR_REMOTE_MOVIE_DETAIL
+import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ERROR_REMOTE_MOVIE_POPULAR
+import ru.alexandrorlov.moviescompose.di.AppScope
+import javax.inject.Inject
+
 //TODO перенести значения error Message в ресурсы и м.б. подробнее расписать.
-class TMDBRemoteDataSource(private val api: TMDBApiService) : TMDBRemoteDataSourceBase() {
+@AppScope
+class TMDBRemoteDataSource @Inject constructor(private val api: TMDBApiService) :
+    TMDBRemoteDataSourceBase() {
     suspend fun getResultFromNetworkMoviePopularList(): Result<Any> {
         return safeApiCall(
             call = { api.getResultFromNetworkMoviePopularList() },
-            errorMessage = "Error Fetching Popular Movies"
+            errorMessage = ERROR_REMOTE_MOVIE_POPULAR
         )
     }
 
     suspend fun getResultMovieDetailNetwork(movieId: Int): Result<Any> {
         return safeApiCall(
             call = { api.getMovieDetailsNetwork(movieId) },
-            errorMessage = "Error Fetching Movie Detail"
+            errorMessage = ERROR_REMOTE_MOVIE_DETAIL
         )
     }
 
     suspend fun getResultListActorsNetwork(movieId: Int): Result<Any> {
         return safeApiCall(
             call = { api.getActorsNetwork(movieId) },
-            errorMessage = "Error Fetching Actors"
+            errorMessage = ERROR_REMOTE_ACTOR
         )
     }
 
     suspend fun getResultConfiguration(): Result<Any> {
         return safeApiCall(
             call = { api.getConfiguration() },
-            errorMessage = "Error Fetching Configuration Api"
+            errorMessage = ERROR_REMOTE_CONFIGURATION
         )
     }
 
     suspend fun getResultLanguages(): Result<Any> {
         return safeApiCall(
             call = { api.getLanguages() },
-            errorMessage = "Error Fetching Configuration Api"
+            errorMessage = ERROR_REMOTE_CONFIGURATION
         )
-    }
-
-    object Singleton {
-        val instance = TMDBRemoteDataSource(RetrofitModule.tmdbApiService)
     }
 }

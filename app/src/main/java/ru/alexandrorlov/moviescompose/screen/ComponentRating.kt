@@ -11,6 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import ru.alexandrorlov.moviescompose.R
 import ru.alexandrorlov.moviescompose.config.AppConfig
 import ru.alexandrorlov.moviescompose.config.TypeStar
+import ru.alexandrorlov.moviescompose.config.UIConfig.STAR_BORDER
+import ru.alexandrorlov.moviescompose.config.UIConfig.STAR_FULL
 
 @Composable
 fun ComponentRating(starsMovie: Int) {
@@ -26,7 +28,7 @@ fun ComponentRating(starsMovie: Int) {
 }
 
 @Composable
-fun ComponentStar(type: TypeStar){
+fun ComponentStar(type: TypeStar) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -37,12 +39,12 @@ fun ComponentStar(type: TypeStar){
             TypeStar.STAR_FULL -> Icon(
                 painter = painterResource(id = R.drawable.icon_star_full),
                 tint = Color.Unspecified,
-                contentDescription = "star_full"
+                contentDescription = STAR_FULL
             )
-            TypeStar.STAR_EMPTY ->  Icon(
+            TypeStar.STAR_EMPTY -> Icon(
                 painter = painterResource(id = R.drawable.icon_star_empty),
                 tint = Color.Unspecified,
-                contentDescription = "star_border"
+                contentDescription = STAR_BORDER
             )
         }
     }

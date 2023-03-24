@@ -2,35 +2,39 @@ package ru.alexandrorlov.moviescompose.screen
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import kotlinx.coroutines.*
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.alexandrorlov.moviescompose.data.Repository
-import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
 import ru.alexandrorlov.moviescompose.data.remote.Result
+import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
 
-class ViewModelMovieDetail(
+class ViewModelMovieDetail @AssistedInject constructor(
     private val repository: Repository,
-    savedStateHandle: SavedStateHandle
+    @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _state: MutableStateFlow<StateMovieDetail> = MutableStateFlow(StateMovieDetail.Loading)
+
+    private val _state: MutableStateFlow<StateMovieDetail> =
+        MutableStateFlow(StateMovieDetail.Loading)
     val state = _state.asStateFlow()
 
-    private val coroutineExceptionHandler = CoroutineExceptionHandler{_, exception ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _state.tryEmit(StateMovieDetail.Error(exception.message.toString()))
     }
 
-    init{
-        val movieDetailId: String? = savedStateHandle["id"]
+    init {
+        val movieDetailId: Int? = savedStateHandle["id"]
 
         viewModelScope.launch(coroutineExceptionHandler) {
             movieDetailId?.let {
                 val resultMovieDetail = withContext(Dispatchers.IO) {
-                    repository.getResultMovieDetail(movieDetailId.toInt())
+                    movieDetailId.let { repository.getResultMovieDetail(it) }
                 }
                 if (resultMovieDetail is Result.Success) {
                     val stateMovieDetail = try {
@@ -48,16 +52,6 @@ class ViewModelMovieDetail(
                         )
                     )
                 }
-            }
-        }
-    }
-
-    companion object{
-        val FACTORY = viewModelFactory {
-            initializer {
-                val repository = Repository()
-                val savedStateHandle = createSavedStateHandle()
-                ViewModelMovieDetail(repository, savedStateHandle)
             }
         }
     }

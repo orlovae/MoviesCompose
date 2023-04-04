@@ -2,6 +2,7 @@ package ru.alexandrorlov.moviescompose.data.remote
 
 import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ERROR_REMOTE_ACTOR
 import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ERROR_REMOTE_CONFIGURATION
+import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ERROR_REMOTE_GENRE
 import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ERROR_REMOTE_MOVIE_DETAIL
 import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ERROR_REMOTE_MOVIE_POPULAR
 import ru.alexandrorlov.moviescompose.di.AppScope
@@ -43,6 +44,13 @@ class TMDBRemoteDataSource @Inject constructor(private val api: TMDBApiService) 
         return safeApiCall(
             call = { api.getLanguages() },
             errorMessage = ERROR_REMOTE_CONFIGURATION
+        )
+    }
+
+    suspend fun getResultGenreNetworkList(): Result<Any> {
+        return safeApiCall(
+            call = { api.getGenres() },
+            errorMessage = ERROR_REMOTE_GENRE
         )
     }
 }

@@ -41,5 +41,11 @@ interface TMDBApiService {
     @GET("configuration/languages?")
     suspend fun getLanguages(
         @Query("api_key") api_key: String = AppConfig.TMDB_API_KEY
-    ): Response<Languages>
+    ): Response<LanguagesApi>
+
+    @GET("genre/movie/list?")
+    suspend fun getGenres(
+        @Query("api_key") api_key: String = AppConfig.TMDB_API_KEY,
+        @Query("language") language: String = "ru"
+    ): Response<ResultGenreNetworkList>
 }

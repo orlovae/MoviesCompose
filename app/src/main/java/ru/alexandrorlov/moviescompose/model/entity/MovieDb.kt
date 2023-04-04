@@ -20,7 +20,7 @@ data class MovieDb(
     @ColumnInfo(name = DataLocalConfig.Movie.COLUMN_BACKDROP)
     val backdrop: String = R.drawable.ic_launcher_error.toString(),
     @ColumnInfo(name = DataLocalConfig.Movie.COLUMN_DATE_RELEASE)
-    val dateRelease: String = ModelConfig.ERROR_STRING,
+    val dateRelease: String,
     @ColumnInfo(name = DataLocalConfig.Movie.COLUMN_RATING)
     val rating: Int,
     @ColumnInfo(name = DataLocalConfig.Movie.COLUMN_AGE_RATING)

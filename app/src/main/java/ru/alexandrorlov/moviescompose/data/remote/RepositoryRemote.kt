@@ -1,13 +1,17 @@
 package ru.alexandrorlov.moviescompose.data.remote
 
+import android.util.Log
 import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ImageType
 import ru.alexandrorlov.moviescompose.data.remote.MapNetworkToModel.mapToActor
+import ru.alexandrorlov.moviescompose.data.remote.MapNetworkToModel.mapToGenre
 import ru.alexandrorlov.moviescompose.data.remote.MapNetworkToModel.mapToMovie
 import ru.alexandrorlov.moviescompose.di.AppScope
 import ru.alexandrorlov.moviescompose.model.remote.MovieDetailsNetwork
 import ru.alexandrorlov.moviescompose.model.remote.ResultActorNetworkList
 import ru.alexandrorlov.moviescompose.model.remote.ResultFromNetworkMoviePopularList
+import ru.alexandrorlov.moviescompose.model.remote.ResultGenreNetworkList
 import ru.alexandrorlov.moviescompose.model.ui.Actor
+import ru.alexandrorlov.moviescompose.model.ui.Genre
 import ru.alexandrorlov.moviescompose.model.ui.Movie
 import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
 import javax.inject.Inject
@@ -16,15 +20,18 @@ import javax.inject.Inject
 class RepositoryRemote @Inject constructor(private val remoteDataSource: TMDBRemoteDataSource) {
 
     suspend fun getResultListMovieFromNetwork(): Result<Any> {
+        Log.d("OAE", "start getResultListMovieFromNetwork")
         val movieList: List<Movie>
 
         val response = remoteDataSource.getResultFromNetworkMoviePopularList()
+        Log.d("OAE", "end getResultListMovieFromNetwork")
 
         if (response is Result.Success) {
             val resultFromNetworkMoviePopularList: ResultFromNetworkMoviePopularList =
                 response.data as ResultFromNetworkMoviePopularList
 
             movieList = resultFromNetworkMoviePopularList.mapToMovie()
+
         } else {
             return response
         }
@@ -71,6 +78,23 @@ class RepositoryRemote @Inject constructor(private val remoteDataSource: TMDBRem
             return resultMovieDetailNetwork
         }
         return Result.Success(movieDetail)
+    }
+
+    suspend fun getResultGenreNetworkList(): Result<Any> {
+        val genreList: List<Genre>
+
+        val response = remoteDataSource.getResultGenreNetworkList()
+
+        if (response is Result.Success) {
+            val resultFromNetworkGenreNetworkList: ResultGenreNetworkList =
+                response.data as ResultGenreNetworkList
+
+            genreList = resultFromNetworkGenreNetworkList.mapToGenre()
+        } else {
+            return response
+        }
+        return Result.Success(genreList)
+
     }
 
     private suspend fun getActorList(id: Int): List<Actor> {

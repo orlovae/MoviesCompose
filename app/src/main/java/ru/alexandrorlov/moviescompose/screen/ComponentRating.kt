@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import ru.alexandrorlov.moviescompose.R
 import ru.alexandrorlov.moviescompose.config.AppConfig
 import ru.alexandrorlov.moviescompose.config.TypeStar
@@ -32,8 +33,8 @@ fun ComponentStar(type: TypeStar) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .height(IntrinsicSize.Min)
-            .width(IntrinsicSize.Min)
+            .height(14.dp)
+            .width(14.dp)
     ) {
         when (type) {
             TypeStar.STAR_FULL -> Icon(

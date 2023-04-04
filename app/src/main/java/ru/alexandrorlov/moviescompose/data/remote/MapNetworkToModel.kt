@@ -1,34 +1,43 @@
 package ru.alexandrorlov.moviescompose.data.remote
 
-import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ImageType
 import ru.alexandrorlov.moviescompose.config.DataRemoteConfig
-import ru.alexandrorlov.moviescompose.model.remote.GenreNetwork
-import ru.alexandrorlov.moviescompose.model.remote.MovieDetailsNetwork
-import ru.alexandrorlov.moviescompose.model.remote.ResultActorNetworkList
-import ru.alexandrorlov.moviescompose.model.remote.ResultFromNetworkMoviePopularList
+import ru.alexandrorlov.moviescompose.config.DataRemoteConfig.ImageType
+import ru.alexandrorlov.moviescompose.model.remote.*
 import ru.alexandrorlov.moviescompose.model.ui.Actor
 import ru.alexandrorlov.moviescompose.model.ui.Genre
 import ru.alexandrorlov.moviescompose.model.ui.Movie
 
 object MapNetworkToModel {
     fun ResultFromNetworkMoviePopularList.mapToMovie(): List<Movie> {
-        return moviePopularNetworkList.map { moviePopularNetwork ->
+        return moviePopularNetworkList.map { movieRemote ->
             Movie(
-                id = moviePopularNetwork.id,
-                title = moviePopularNetwork.title,
+                id = movieRemote.id,
+                title = movieRemote.title,
                 poster = buildUrlImage(
                     ImageType.MOVIE_POSTER,
-                    moviePopularNetwork.posterPath
+                    movieRemote.posterPath
                 ),
                 rating = mapRatingToInt(
-                    moviePopularNetwork.rating
+                    movieRemote.rating
                 ),
-                description = moviePopularNetwork.description
+                description = movieRemote.description,
+//                dateRelease = movieRemote.dateRelease,
+                genreList = movieRemote.genres
             )
         }
     }
+
     fun mapGenreNetworkListToModelList(genresNetwork: List<GenreNetwork>): List<Genre> {
         return genresNetwork.map { genreNetwork ->
+            Genre(
+                id = genreNetwork.id,
+                name = genreNetwork.name
+            )
+        }
+    }
+
+    fun ResultGenreNetworkList.mapToGenre(): List<Genre> {
+        return genreNetworkList.map { genreNetwork ->
             Genre(
                 id = genreNetwork.id,
                 name = genreNetwork.name
@@ -69,7 +78,7 @@ object MapNetworkToModel {
             ImageType.MOVIE_BACKDROP ->
                 DataRemoteConfig.getFirstPartURL(ImageType.MOVIE_BACKDROP) + path
             ImageType.ACTOR_PHOTO ->
-                DataRemoteConfig.getFirstPartURL(ImageType.ACTOR_PHOTO)+ path
+                DataRemoteConfig.getFirstPartURL(ImageType.ACTOR_PHOTO) + path
         }
     }
 

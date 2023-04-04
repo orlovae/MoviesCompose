@@ -18,7 +18,8 @@ class MapperDbToUi @Inject constructor() {
             poster = poster,
             rating = rating,
             ageRating = ageRating,
-            description = description
+            description = description,
+            genreList = genreId
         )
     }
 
@@ -88,16 +89,16 @@ class MapperDbToUi @Inject constructor() {
         }
     }
 
-    fun GenreDb.mapToGenreUi(): Genre {
+    fun mapToGenreUi(genreDb: GenreDb): Genre {
         return Genre(
-            id = id,
-            name = name
+            id = genreDb.id,
+            name = genreDb.name
         )
     }
 
-    fun List<Genre>.mapToGenreUiList(list: List<GenreDb>): List<Genre> {
+    fun mapToGenreUiList(list: List<GenreDb>): List<Genre> {
         return list.map { genreDb ->
-            genreDb.mapToGenreUi()
+            mapToGenreUi(genreDb)
         }
     }
 }

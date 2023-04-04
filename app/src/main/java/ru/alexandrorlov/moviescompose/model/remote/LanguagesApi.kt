@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class `Languages`(
+data class LanguagesApi(
     @SerialName("iso_639_1")
     val language: String,
 

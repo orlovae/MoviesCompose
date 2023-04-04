@@ -17,6 +17,11 @@ fun ComponentActorList(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(
+                start = 20.dp,
+                top = 16.dp,
+                end = 16.dp
+            )
     ) {
         LazyRow {
             items(actorList) { actor ->

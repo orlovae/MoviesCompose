@@ -23,8 +23,9 @@ data class MoviePopularNetwork(
     @SerialName("overview")
     val description: String,
 
-    @SerialName("release_date")
-    val dateRelease: String,
+//    @SerialName("release_date")
+//    val dateRelease: String,
+//TODO Почему-то при включении данного поля, приложение падает.
 
     @SerialName("title")
     val title: String,

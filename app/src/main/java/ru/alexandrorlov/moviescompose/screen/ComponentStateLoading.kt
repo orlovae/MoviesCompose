@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import ru.alexandrorlov.moviescompose.R
 
 @Composable
-fun CircularProgressAnimated() {
+fun ComponentStateLoading() {
     val progressValue = 1f
     val infiniteTransition = rememberInfiniteTransition()
 
@@ -29,10 +29,10 @@ fun CircularProgressAnimated() {
         targetValue = progressValue,
         animationSpec = infiniteRepeatable(animation = tween(2000)))
 
-   Column(
-       modifier = Modifier
-           .fillMaxWidth()
-   ) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
         CircularProgressIndicator(
             progress = progressAnimationValue,
             modifier = Modifier
@@ -40,14 +40,14 @@ fun CircularProgressAnimated() {
                 .align(CenterHorizontally),
             strokeWidth = 10.dp
         )
-       Text(
-           text = stringResource(id = R.string.loading),
-           modifier = Modifier
-               .fillMaxWidth(),
-           fontSize = 16.sp,
-           fontWeight = FontWeight.Bold,
-           fontFamily = FontFamily.SansSerif,
-           textAlign = TextAlign.Center
-       )
+        Text(
+            text = stringResource(id = R.string.loading),
+            modifier = Modifier
+                .fillMaxWidth(),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.SansSerif,
+            textAlign = TextAlign.Center
+        )
     }
 }

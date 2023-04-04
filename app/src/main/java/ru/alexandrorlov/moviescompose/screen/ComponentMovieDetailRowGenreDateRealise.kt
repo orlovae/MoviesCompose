@@ -1,7 +1,12 @@
 package ru.alexandrorlov.moviescompose.screen
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,22 +30,26 @@ fun ComponentMovieDetailRowGenreDateRealise(
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = "боевики",//TODO, передавать сюда List<Genre>
-            fontSize = 10.sp,
-            modifier = Modifier
-                .border(
-                    width = 1.dp,
-                    color = Color.Black,
-                    shape = RoundedCornerShape(15.dp)
+        LazyRow {
+            items(items = movieDetail.genreList) { item ->
+                Text(
+                    modifier = Modifier
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(15.dp)
+                        )
+                        .padding(
+                            start = 9.dp,
+                            top = 4.dp,
+                            end = 9.dp,
+                            bottom = 4.dp
+                        ),
+                    text = item.name,
+                    fontSize = 10.sp
                 )
-                .padding(
-                    start = 9.dp,
-                    top = 4.dp,
-                    end = 9.dp,
-                    bottom = 4.dp
-                )
-        )
+            }
+        }
         Spacer(modifier = Modifier.width(14.dp))
         Text(
             text = movieDetail.dateRelease,

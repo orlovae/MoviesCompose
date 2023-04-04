@@ -6,7 +6,7 @@ import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
 import javax.inject.Inject
 
 @AppScope
-class RepositoryLocal @Inject constructor(
+class RepositoryLocalMovie @Inject constructor(
     private val db: LocalDataBase,
     private val mapperDbToUi: MapperDbToUi,
     private val mapperUiToDb: MapperUiToDb

@@ -15,6 +15,7 @@ object DataRemoteConfig {
     const val ERROR_REMOTE_MOVIE_DETAIL = "Error Fetching Movie Detail"
     const val ERROR_REMOTE_ACTOR = "Error Fetching Actors"
     const val ERROR_REMOTE_CONFIGURATION = "Error Fetching Configuration Api"
+    const val ERROR_REMOTE_GENRE = "Error Fetching Genre Api"
 
     const val JSON = "application/json"
 

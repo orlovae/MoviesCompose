@@ -15,12 +15,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import ru.alexandrorlov.moviescompose.R
+import ru.alexandrorlov.moviescompose.screen.search.ComponentStateError
 
 @Composable
 fun ScreenMovieDetail(
@@ -33,30 +32,12 @@ fun ScreenMovieDetail(
     ) {
         when (state.value) {
             is StateMovieDetail.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    ComponentCircularProgressAnimated()
-                }
+                ComponentStateLoading()
             }
             is StateMovieDetail.Error -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    Text(
-                        text = stringResource(R.string.error) +
-                                System.lineSeparator() +
-                                (state.value as StateMovieDetail.Error).message,
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = FontFamily.SansSerif,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                ComponentStateError(
+                    messageError = (state.value as StateMovieDetail.Error).message
+                )
             }
             is StateMovieDetail.Success -> {
                 val movieDetail = (state.value as StateMovieDetail.Success).movie

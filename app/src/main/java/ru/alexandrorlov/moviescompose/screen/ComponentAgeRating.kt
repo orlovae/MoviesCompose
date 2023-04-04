@@ -1,6 +1,6 @@
 package ru.alexandrorlov.moviescompose.screen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

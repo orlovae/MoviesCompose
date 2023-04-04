@@ -2,7 +2,6 @@ package ru.alexandrorlov.moviescompose.config
 
 import ru.alexandrorlov.moviescompose.BuildConfig
 
-
 object AppConfig {
     const val STARS_RATING_COUNT = 4
     const val ASSETS_FILE_DATA = "data.json"

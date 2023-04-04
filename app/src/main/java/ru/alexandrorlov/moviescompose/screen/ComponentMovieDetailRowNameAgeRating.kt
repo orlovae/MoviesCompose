@@ -17,7 +17,7 @@ import ru.alexandrorlov.moviescompose.model.ui.MovieDetail
 @Composable
 fun ComponentMovieDetailRowNameAgeRating(
     movieDetail: MovieDetail
-){
+) {
     Row(
         modifier = Modifier
             .padding(

@@ -2,6 +2,7 @@ package ru.alexandrorlov.moviescompose.config
 
 object DataLocalConfig {
     const val DATABASE_NAME = "movies.db"
+    const val ERROR_ID = "Invalid ID = "
 
     object Movie {
         const val TABLE_NAME = "Movies"

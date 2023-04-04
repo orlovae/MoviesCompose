@@ -1,6 +1,9 @@
 package ru.alexandrorlov.moviescompose.screen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
@@ -17,6 +20,11 @@ fun ComponentActorList(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(
+                start = 20.dp,
+                top = 16.dp,
+                end = 16.dp
+            )
     ) {
         LazyRow {
             items(actorList) { actor ->
